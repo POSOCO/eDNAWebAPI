@@ -23,7 +23,7 @@ namespace openHttpAPI.Controllers
 
         // GET api/values/history?type=snap&pnt=something&strtime=11/30/2016 00:00:00.00&endtime=11/30/2008 24:59:00.00&secs=60
         // GET api/values/real?pnt=something
-        public object Get(string id, [FromUri] string pnt = "", [FromUri] string strtime = "", [FromUri] string endtime = "", [FromUri] int secs = 60, [FromUri] string type = "snap")
+        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "11/30/2016 00:00:00.00", [FromUri] string endtime = "11/30/2008 24:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
         {
             //testing the function
             /*
@@ -56,15 +56,15 @@ namespace openHttpAPI.Controllers
                 string status = "";
                 TimeSpan period = TimeSpan.FromSeconds(secs);
                 //history request initiation
-                if (type == "RAW")
+                if (type == "raw")
                 { nret = History.DnaGetHistRaw(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), out s); }
-                else if (type == "SNAP")
+                else if (type == "snap")
                 { nret = History.DnaGetHistSnap(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
-                else if (type == "AVERAGE")
+                else if (type == "average")
                 { nret = History.DnaGetHistAvg(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
-                else if (type == "MIN")
+                else if (type == "min")
                 { nret = History.DnaGetHistMin(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
-                else if (type == "MAX")
+                else if (type == "max")
                 { nret = History.DnaGetHistMax(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
                 //get history values
                 while (nret == 0)
