@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +9,22 @@ using InStep.eDNA.EzDNAApiNet;
 
 namespace openHttpAPI.Controllers
 {
+    public class realResult
+    {
+        public double dval { get; set; }
+        public DateTime timestamp { get; set; }
+        public string status { get; set; }
+        public string desc { get; set; }
+        public string units { get; set; }
+    }
+
+    public class histResult
+    {
+        public double dval { get; set; }
+        public DateTime timestamp { get; set; }
+        public string status { get; set; }
+    }
+
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -18,12 +34,12 @@ namespace openHttpAPI.Controllers
             ret.name1 = new JArray { new[] { "venky", "sudhir" } };
             ret.name1.Add("prashanth");
             ret.name2 = "asfa";
-            return ret;
+            return new realResult { dval = 10, timestamp = DateTime.Now, status = "asfsa", units = "hrht" };
         }
 
         // GET api/values/history?type=snap&pnt=something&strtime=11/30/2016 00:00:00.00&endtime=11/30/2008 23:59:00.00&secs=60
         // GET api/values/real?pnt=something
-        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "11/30/2016 00:00:00.00", [FromUri] string endtime = "11/30/2008 23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
+        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016 00:00:00.00", [FromUri] string endtime = "30/11/2016 23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
         {
             //testing the function
             /*
@@ -45,9 +61,8 @@ namespace openHttpAPI.Controllers
             */
             //testing the function
 
-            dynamic jsonObject = new JObject();
-            jsonObject.data = new JArray { new[] { "dval", "timestamp", "status" } };
             int nret = 0;
+            string format = "dd/MM/yyyy HH:mm:ss.ff";
             if (id == "history")
             {
                 uint s = 0;
@@ -57,51 +72,47 @@ namespace openHttpAPI.Controllers
                 TimeSpan period = TimeSpan.FromSeconds(secs);
                 //history request initiation
                 if (type == "raw")
-                { nret = History.DnaGetHistRaw(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), out s); }
+                { nret = History.DnaGetHistRaw(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), out s); }
                 else if (type == "snap")
-                { nret = History.DnaGetHistSnap(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
+                { nret = History.DnaGetHistSnap(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
                 else if (type == "average")
-                { nret = History.DnaGetHistAvg(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
+                { nret = History.DnaGetHistAvg(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
                 else if (type == "min")
-                { nret = History.DnaGetHistMin(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
+                { nret = History.DnaGetHistMin(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
                 else if (type == "max")
-                { nret = History.DnaGetHistMax(pnt, Convert.ToDateTime(strtime), Convert.ToDateTime(endtime), period, out s); }
+                { nret = History.DnaGetHistMax(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
                 //get history values
+                ArrayList historyResults = new ArrayList();
                 while (nret == 0)
                 {
                     nret = History.DnaGetNextHist(s, out dval, out timestamp, out status);
                     if (status != null)
                     {
-                        dynamic resultObj = new JObject();
-                        resultObj.dval = dval;
-                        resultObj.timestamp = timestamp;
-                        resultObj.status = status;
-                        jsonObject.data.Add(resultObj);
+                        historyResults.Add(new histResult { dval = dval, timestamp = timestamp, status = status });
                     }
                 }
+                return historyResults;
             }
             else if (id == "real")
             {
-                jsonObject.data = new JArray { new[] { "dval", "timestamp", "status", "pointid", "description", "units" } };
                 double dval = 0;
                 DateTime timestamp = DateTime.Now;
                 string status = "";
                 string desc = "";
                 string units = "";
                 nret = RealTime.DNAGetRTAll(pnt, out dval, out timestamp, out status, out desc, out units);//get RT value
+                realResult realVal;
                 if (nret == 0)
                 {
-                    dynamic resultObj = new JObject();
-                    resultObj.dval = dval;
-                    resultObj.timestamp = timestamp.ToString();
-                    resultObj.status = status;
-                    resultObj.pointid = pnt;
-                    resultObj.description = desc;
-                    resultObj.units = units;
-                    jsonObject.data.Add(resultObj);
+                    realVal = new realResult { dval = dval, timestamp = timestamp, status = status, units = units };
+                    return realVal;
                 }
+                return null;
             }
-            return jsonObject;
+            else
+            {
+                return null;
+            }
         }
 
         // POST api/values
