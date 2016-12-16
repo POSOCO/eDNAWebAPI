@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using InStep.eDNA.EzDNAApiNet;
+using System.Web.Http.Cors;
 
 namespace openHttpAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class realResult
     {
         public double dval { get; set; }
