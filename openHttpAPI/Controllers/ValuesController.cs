@@ -10,7 +10,6 @@ using System.Web.Http.Cors;
 
 namespace openHttpAPI.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class realResult
     {
         public double dval { get; set; }
@@ -27,6 +26,7 @@ namespace openHttpAPI.Controllers
         public string status { get; set; }
     }
 
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ValuesController : ApiController
     {
         // GET api/values
