@@ -45,3 +45,6 @@ C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI
 C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\obj\Release\openHttpAPI.csprojResolveAssemblyReference.cache
 C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\obj\Release\openHttpAPI.dll
 C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\obj\Release\openHttpAPI.pdb
+C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\bin\System.Web.Cors.dll
+C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\bin\System.Web.Http.Cors.dll
+C:\Users\Nagasudhir\Documents\Visual Studio 2015\Projects\eDNAWebAPI\openHttpAPI\bin\System.Web.Http.Cors.xml

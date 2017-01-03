@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Nagasudhir\Desktop\eDNAWebAPIv2</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\Nagasudhir\Desktop\eDNAWebAPI-IIS-publish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -88,7 +88,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:15</publishTime>
     </File>
     <File Include="bin/openHttpAPI.dll">
-      <publishTime>12/15/2016 07:58:03</publishTime>
+      <publishTime>01/03/2017 20:32:11</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>12/12/2016 18:03:15</publishTime>
@@ -129,8 +129,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>12/12/2016 18:03:15</publishTime>
     </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>12/16/2016 12:29:25</publishTime>
+    </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>12/12/2016 18:03:15</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>12/16/2016 12:29:27</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
       <publishTime>12/12/2016 18:03:15</publishTime>
@@ -187,7 +193,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:14</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/12/2016 18:03:14</publishTime>
+      <publishTime>12/16/2016 12:29:28</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>12/12/2016 18:03:14</publishTime>
@@ -232,7 +238,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:14</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/15/2016 07:58:04</publishTime>
+      <publishTime>12/17/2016 15:18:20</publishTime>
     </File>
   </ItemGroup>
 </Project>
