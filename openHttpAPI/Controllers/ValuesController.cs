@@ -39,9 +39,9 @@ namespace openHttpAPI.Controllers
             return new realResult { dval = 10, timestamp = DateTime.Now, status = "asfsa", units = "hrht" };
         }
 
-        // GET api/values/history?type=snap&pnt=something&strtime=11/30/2016 00:00:00.00&endtime=11/30/2008 23:59:00.00&secs=60
+        // GET api/values/history?type=snap&pnt=something&strtime=11/30/2016/00:00:00.00&endtime=11/30/2008/23:59:00.00&secs=60
         // GET api/values/real?pnt=something
-        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016 00:00:00.00", [FromUri] string endtime = "30/11/2016 23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
+        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016/00:00:00.00", [FromUri] string endtime = "30/11/2016/23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
         {
             //testing the function
             /*
@@ -64,7 +64,7 @@ namespace openHttpAPI.Controllers
             //testing the function
 
             int nret = 0;
-            string format = "dd/MM/yyyy HH:mm:ss.ff";
+            string format = "dd/MM/yyyy/HH:mm:ss.ff";
             if (id == "history")
             {
                 uint s = 0;
