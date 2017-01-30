@@ -41,7 +41,7 @@ namespace openHttpAPI.Controllers
 
         // GET api/values/history?type=snap&pnt=something&strtime=11/30/2016/00:00:00.00&endtime=11/30/2008/23:59:00.00&secs=60
         // GET api/values/real?pnt=something
-        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016/00:00:00.00", [FromUri] string endtime = "30/11/2016/23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap")
+        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016/00:00:00.00", [FromUri] string endtime = "30/11/2016/23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap", [FromUri] string service = "WRDCMP.SCADA1")
         {
             //testing the function
             /*
@@ -110,6 +110,12 @@ namespace openHttpAPI.Controllers
                     return realVal;
                 }
                 return null;
+            }
+            else if (id == "longtoshort")
+            {
+                string shortId = "";
+                InStep.eDNA.EzDNAApiNet.Configuration.ShortIdFromLongId(service, pnt, out shortId);
+                return new { shortId = shortId};
             }
             else
             {
