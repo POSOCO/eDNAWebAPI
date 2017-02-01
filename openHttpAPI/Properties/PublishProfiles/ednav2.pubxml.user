@@ -88,7 +88,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:15</publishTime>
     </File>
     <File Include="bin/openHttpAPI.dll">
-      <publishTime>01/31/2017 01:08:08</publishTime>
+      <publishTime>02/01/2017 15:27:11</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>12/12/2016 18:03:15</publishTime>
@@ -164,6 +164,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>12/12/2016 18:03:16</publishTime>
+    </File>
+    <File Include="ClassDiagram1.cd">
+      <publishTime>01/31/2017 01:19:16</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>12/12/2016 18:03:14</publishTime>

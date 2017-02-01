@@ -7,6 +7,8 @@ using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using InStep.eDNA.EzDNAApiNet;
 using System.Web.Http.Cors;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace openHttpAPI.Controllers
 {
@@ -39,9 +41,9 @@ namespace openHttpAPI.Controllers
             return new realResult { dval = 10, timestamp = DateTime.Now, status = "asfsa", units = "hrht" };
         }
 
-        // GET api/values/history?type=snap&pnt=something&strtime=30/11/2016/00:00:00.00&endtime=30/11/2016/23:59:00.00&secs=60
+        // GET api/values/history?type=snap&pnt=something&strtime=30/11/2016/00:00:00&endtime=30/11/2016/23:59:00&secs=60
         // GET api/values/real?pnt=something
-        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016/00:00:00.00", [FromUri] string endtime = "30/11/2016/23:59:00.00", [FromUri] int secs = 60, [FromUri] string type = "snap", [FromUri] string service = "WRDCMP.SCADA1")
+        public object Get(string id, [FromUri] string pnt = "WRLDC.PHASOR.WRDC0783", [FromUri] string strtime = "30/11/2016/00:00:00", [FromUri] string endtime = "30/11/2016/23:59:00", [FromUri] int secs = 60, [FromUri] string type = "snap", [FromUri] string service = "WRDCMP.SCADA1")
         {
             //testing the function
             /*
@@ -64,9 +66,22 @@ namespace openHttpAPI.Controllers
             //testing the function
 
             int nret = 0;
-            string format = "dd/MM/yyyy/HH:mm:ss.ff";
+            string format = "dd/MM/yyyy/HH:mm:ss";
             if (id == "history")
             {
+                /*
+                string r = @"(\d{2})/(\d{2})/(\d{4})/(\d{2}):(\d{2}):(\d{2})";
+                MatchCollection matches = Regex.Matches(strtime, r);
+                foreach (Match match in matches)
+                {
+                    Console.WriteLine(match.Groups[1].Value);
+                    Console.WriteLine(match.Groups[2].Value);
+                    Console.WriteLine(match.Groups[3].Value);
+                    Console.WriteLine(match.Groups[4].Value);
+                    Console.WriteLine(match.Groups[5].Value);
+                    Console.WriteLine(match.Groups[6].Value);
+                }
+                */
                 uint s = 0;
                 double dval = 0;
                 DateTime timestamp = DateTime.Now;
@@ -74,15 +89,15 @@ namespace openHttpAPI.Controllers
                 TimeSpan period = TimeSpan.FromSeconds(secs);
                 //history request initiation
                 if (type == "raw")
-                { nret = History.DnaGetHistRaw(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), out s); }
+                { nret = History.DnaGetHistRaw(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), out s); }
                 else if (type == "snap")
-                { nret = History.DnaGetHistSnap(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
+                { nret = History.DnaGetHistSnap(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
                 else if (type == "average")
-                { nret = History.DnaGetHistAvg(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
+                { nret = History.DnaGetHistAvg(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
                 else if (type == "min")
-                { nret = History.DnaGetHistMin(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
+                { nret = History.DnaGetHistMin(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
                 else if (type == "max")
-                { nret = History.DnaGetHistMax(pnt, DateTime.ParseExact(strtime, format, null), DateTime.ParseExact(endtime, format, null), period, out s); }
+                { nret = History.DnaGetHistMax(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
                 //get history values
                 ArrayList historyResults = new ArrayList();
                 while (nret == 0)
