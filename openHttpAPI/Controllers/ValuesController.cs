@@ -82,31 +82,40 @@ namespace openHttpAPI.Controllers
                     Console.WriteLine(match.Groups[6].Value);
                 }
                 */
-                uint s = 0;
-                double dval = 0;
-                DateTime timestamp = DateTime.Now;
-                string status = "";
-                TimeSpan period = TimeSpan.FromSeconds(secs);
-                //history request initiation
-                if (type == "raw")
-                { nret = History.DnaGetHistRaw(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), out s); }
-                else if (type == "snap")
-                { nret = History.DnaGetHistSnap(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
-                else if (type == "average")
-                { nret = History.DnaGetHistAvg(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
-                else if (type == "min")
-                { nret = History.DnaGetHistMin(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
-                else if (type == "max")
-                { nret = History.DnaGetHistMax(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
                 //get history values
                 ArrayList historyResults = new ArrayList();
-                while (nret == 0)
+                try
                 {
-                    nret = History.DnaGetNextHist(s, out dval, out timestamp, out status);
-                    if (status != null)
+                    uint s = 0;
+                    double dval = 0;
+                    DateTime timestamp = DateTime.Now;
+                    string status = "";
+                    TimeSpan period = TimeSpan.FromSeconds(secs);
+                    //history request initiation
+                    if (type == "raw")
+                    { nret = History.DnaGetHistRaw(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), out s); }
+                    else if (type == "snap")
+                    { nret = History.DnaGetHistSnap(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
+                    else if (type == "average")
+                    { nret = History.DnaGetHistAvg(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
+                    else if (type == "min")
+                    { nret = History.DnaGetHistMin(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
+                    else if (type == "max")
+                    { nret = History.DnaGetHistMax(pnt, DateTime.ParseExact(strtime, format, CultureInfo.InvariantCulture), DateTime.ParseExact(endtime, format, CultureInfo.InvariantCulture), period, out s); }
+
+                    while (nret == 0)
                     {
-                        historyResults.Add(new histResult { dval = dval, timestamp = timestamp, status = status });
+                        nret = History.DnaGetNextHist(s, out dval, out timestamp, out status);
+                        if (status != null)
+                        {
+                            historyResults.Add(new histResult { dval = dval, timestamp = timestamp, status = status });
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error while fetching history results " + ex.Message);
+                    historyResults = new ArrayList();
                 }
                 return historyResults;
             }
@@ -117,20 +126,36 @@ namespace openHttpAPI.Controllers
                 string status = "";
                 string desc = "";
                 string units = "";
-                nret = RealTime.DNAGetRTAll(pnt, out dval, out timestamp, out status, out desc, out units);//get RT value
                 realResult realVal;
-                if (nret == 0)
+                try
                 {
-                    realVal = new realResult { dval = dval, timestamp = timestamp, status = status, units = units };
-                    return realVal;
+                    nret = RealTime.DNAGetRTAll(pnt, out dval, out timestamp, out status, out desc, out units);//get RT value
+                    if (nret == 0)
+                    {
+                        realVal = new realResult { dval = dval, timestamp = timestamp, status = status, units = units };
+                        return realVal;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error while fetching realtime result " + ex.Message);
+                    return null;
                 }
                 return null;
             }
             else if (id == "longtoshort")
             {
                 string shortId = "";
-                InStep.eDNA.EzDNAApiNet.Configuration.ShortIdFromLongId(service, pnt, out shortId);
-                return new { shortId = shortId};
+                try
+                {
+                    InStep.eDNA.EzDNAApiNet.Configuration.ShortIdFromLongId(service, pnt, out shortId);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error while fetching longtoshort result " + ex.Message);
+                    shortId = "";
+                }
+                return new { shortId = shortId };
             }
             else
             {

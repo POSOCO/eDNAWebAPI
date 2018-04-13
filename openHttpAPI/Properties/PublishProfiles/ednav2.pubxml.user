@@ -75,6 +75,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>12/12/2016 18:03:14</publishTime>
     </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>12/12/2016 18:03:14</publishTime>
+    </File>
     <File Include="bin/EzDNAApiNet.dll">
       <publishTime>12/12/2016 18:03:16</publishTime>
     </File>
@@ -88,7 +91,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:15</publishTime>
     </File>
     <File Include="bin/openHttpAPI.dll">
-      <publishTime>02/01/2017 15:27:11</publishTime>
+      <publishTime>04/13/2018 19:02:23</publishTime>
+    </File>
+    <File Include="bin/openHttpAPI.pdb">
+      <publishTime>04/13/2018 19:02:23</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>12/12/2016 18:03:15</publishTime>
@@ -241,7 +247,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2016 18:03:14</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/17/2016 15:18:20</publishTime>
+      <publishTime>04/13/2018 19:02:25</publishTime>
     </File>
   </ItemGroup>
 </Project>
